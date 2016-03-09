@@ -51,6 +51,6 @@ get "/" do |env|
   Views::Index.new repos, sort, filter
 end
 
-get "/:shard" do |env|
-  "Detail"
+get "/:user/:repo" do |env|
+  env.redirect("https://github.com/#{env.params.url["user"]}/#{env.params.url["repo"]}")
 end
