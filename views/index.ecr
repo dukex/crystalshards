@@ -1,74 +1,264 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Crystalshards</title>
-    <link rel="stylesheet" href="/css/application.css">
-    <script type="text/javascript" src="/js/application.js" ></script>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <body>
-    <section class="main-info">
-      <div class="container">
-        <h1 class="title">Crystalshards</h1>
+  <title>CrystalShards</title>
 
-        <p class="more-info">
-          <% if filter.empty? %>
-            There are a total of <span class="repo-count"><%= repos_count %></span> shards
-          <% else %>
-            There are a total of <span class="repo-count"><%= repos_count %></span> shards that match your query
-          <% end %>
-        </p>
-      </div>
+  <link rel="stylesheet" href="src/main.css">
+</head>
+<body>
+<svg style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1"
+     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <symbol id="icon-search" viewBox="0 0 1024 1024">
+      <title>search</title>
+      <path class="path1"
+            d="M406 598q80 0 136-56t56-136-56-136-136-56-136 56-56 136 56 136 136 56zM662 598l212 212-64 64-212-212v-34l-12-12q-76 66-180 66-116 0-197-80t-81-196 81-197 197-81 196 81 80 197q0 104-66 180l12 12h34z"></path>
+    </symbol>
+    <symbol id="icon-version" viewBox="0 0 1024 1024">
+      <title>version</title>
+      <path class="path1"
+            d="M234 298q26 0 45-19t19-45-19-45-45-19-45 19-19 45 19 45 45 19zM914 494q24 24 24 60t-24 60l-300 300q-24 24-60 24t-60-24l-384-384q-24-24-24-60v-300q0-34 25-59t59-25h300q36 0 60 24z"></path>
+    </symbol>
+    <symbol id="icon-star" viewBox="0 0 1024 1024">
+      <title>star</title>
+      <path class="path1"
+            d="M512 736l-264 160 70-300-232-202 306-26 120-282 120 282 306 26-232 202 70 300z"></path>
+    </symbol>
+    <symbol id="icon-recently" viewBox="0 0 1024 1024">
+      <title>recently</title>
+      <path class="path1"
+            d="M512 342h64v180l150 90-32 52-182-110v-212zM554 128q158 0 271 112t113 272-113 272-271 112-270-112l60-62q88 88 210 88 124 0 212-87t88-211-88-211-212-87-211 87-87 211h128l-172 172-4-6-166-166h128q0-160 113-272t271-112z"></path>
+    </symbol>
+  </defs>
+</svg>
+
+
+<header class="Header" role="banner">
+  <div class="width">
+    <a class="Logo" href="/">
+      <svg width="29" height="34" viewBox="0 0 29 34" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd">
+          <path
+              d="M28.532 16.49c.48.282.48.737 0 1.02L1.268 33.49C.788 33.773.4 33.546.4 33V1c0-.553.388-.773.868-.49l27.264 15.98z"
+              fill="#FFF"/>
+          <path d="M11.642 17.968L4.426 29.316 24.05 17.968H11.643z" fill="#94EAD7"/>
+          <path d="M10.08 17.018l-7.622 11.85v-23.7l7.62 11.85z" fill="#D7FBF3" opacity=".883"/>
+        </g>
+      </svg>
+      CrystalShards
+    </a>
+    <a href="" class="all-list"><b><%= repos_count %></b> total shards →</a>
+  </div>
+</header>
+<!-- /.Header -->
+
+
+<div class="Search">
+  <div class="width">
+    <form action="">
+      <svg class="icon">
+        <use xlink:href="#icon-search"></use>
+      </svg>
+      <input value="<%= filter %>" class="Search_input" id="search" name="filter" type="text" placeholder="Find shards...">
+    </form>
+  </div>
+</div>
+<!-- /.Search -->
+
+
+<main class="Body" role="main">
+  <div class="width">
+
+    <section class="List">
+
+    <% if filter.empty? %>
+
+      <h2 class="List_title">
+        <svg class="icon">
+          <use xlink:href="#icon-star"></use>
+        </svg>
+        POPULAR
+      </h2>
+
+      <ul class="Shards">
+        <% popular_repos.each do |repo| %>
+        <li class="Shard">
+          <div class="Shard-content">
+            <h3 class="Shard_title">
+              <a href="<%= repo.html_url %>"><%= repo.name %></a>
+            </h3>
+            <p class="Shard_desc">
+              <% unless repo.description.try &.strip.empty? %>
+                <%= repo.description %>
+              <% end %>
+            </p>
+          </div>
+          <footer class="Shard-meta">
+            <ul>
+              <li class="Shard-meta_author">
+                <a href="https://github.com/<%= repo.owner.login %>">
+                  <img src="<%= repo.owner.avatar_url %>">
+                  <%= repo.owner.login %>
+                </a>
+              </li>
+              <li class="Shard-meta_stars">
+                <a href="">
+                  <svg class="icon">
+                    <use xlink:href="#icon-star"></use>
+                  </svg>
+                  <%= repo.stargazers_count %>
+                </a>
+              </li>
+              <li class="Shard-meta_version">
+                <a href="">
+                  <svg class="icon">
+                    <use xlink:href="#icon-recently"></use>
+                  </svg>
+                  <%= human_time(repo.pushed_at) %>
+                </a>
+              </li>
+            </ul>
+          </footer>
+        </li>
+        <% end %>
+      </ul>
+
     </section>
 
-    <section class="repos">
-      <div class="container">
-        <div class="nav">
-          <form id="search" method="get" action="/">
-            Sort by:
-              <select id="sort" name="sort">
-                <% SORT_OPTIONS.each_with_index do |target_sort, index| %>
-                  <option <%= "selected" if sort == target_sort %>>
-                     <%= target_sort %>
-                  </option>
-                <% end %>
-              </select>
 
-            Filter:
-              <input type="search" id="filter" name="filter" maxlength="20" autofocus/>
-          </form>
-        </div>
+    <section class="List">
 
-        <ul>
+      <h2 class="List_title">
+        <svg class="icon">
+          <use xlink:href="#icon-recently"></use>
+        </svg>
+        RECENTLY UPDATED
+      </h2>
+
+      <ul class="Shards">
+
+        <% recent_repos.each do |repo| %>
+        <li class="Shard">
+          <div class="Shard-content">
+            <h3 class="Shard_title">
+              <a href="<%= repo.html_url %>"><%= repo.name %></a>
+            </h3>
+            <p class="Shard_desc">
+              <% unless repo.description.try &.strip.empty? %>
+                <%= repo.description %>
+              <% end %>
+            </p>
+          </div>
+          <footer class="Shard-meta">
+            <ul>
+              <li class="Shard-meta_author">
+                <a href="https://github.com/<%= repo.owner.login %>">
+                  <img src="<%= repo.owner.avatar_url %>">
+                  <%= repo.owner.login %>
+                </a>
+              </li>
+              <li class="Shard-meta_stars">
+                <a href="">
+                  <svg class="icon">
+                    <use xlink:href="#icon-star"></use>
+                  </svg>
+                  <%= repo.stargazers_count %>
+                </a>
+              </li>
+              <li class="Shard-meta_version">
+                <a href="">
+                  <svg class="icon">
+                    <use xlink:href="#icon-recently"></use>
+                  </svg>
+                  <%= human_time(repo.pushed_at) %>
+                </a>
+              </li>
+            </ul>
+          </footer>
+        </li>
+        <% end %>
+
+      </ul>
+
+      <% else %>
+        <h2 class="List_title List_title--search">
+          <% if repos_count.to_i == 0 %>
+              No shards found.
+          <% elsif repos_count.to_i == 1 %>
+              1 shard found
+          <% else %>
+              <%= repos_count %> shards found.
+          <% end %>
+        </h2>
+
+        <ul class="Shards">
+
           <% crystal_repos.each do |repo| %>
-            <li class="repo">
-            <a href="<%= repo.html_url %>"><%= repo.name %></a>
-
-            <% if sort == "stars" %>
-              (<%= repo.watchers_count %> stars)
-            <% elsif sort == "updated" %>
-              (<%= human_time(repo.pushed_at) %>)
-            <% elsif sort == "forks" %>
-              (<%= repo.forks %> forks)
-            <% end %>
-
-            <% unless repo.description.try &.strip.empty? %>
-             - <%= repo.description %>
-            <% end %>
-            </li>
+          <li class="Shard">
+            <div class="Shard-content">
+              <h3 class="Shard_title">
+                <a href="<%= repo.html_url %>"><%= repo.name %></a>
+              </h3>
+              <p class="Shard_desc">
+                <% unless repo.description.try &.strip.empty? %>
+                  <%= repo.description %>
+                <% end %>
+              </p>
+            </div>
+            <footer class="Shard-meta">
+              <ul>
+                <li class="Shard-meta_author">
+                  <a href="https://github.com/<%= repo.owner.login %>">
+                    <img src="<%= repo.owner.avatar_url %>">
+                    <%= repo.owner.login %>
+                  </a>
+                </li>
+                <li class="Shard-meta_stars">
+                  <a href="">
+                    <svg class="icon">
+                      <use xlink:href="#icon-star"></use>
+                    </svg>
+                    <%= repo.stargazers_count %>
+                  </a>
+                </li>
+                <li class="Shard-meta_version">
+                  <a href="">
+                    <svg class="icon">
+                      <use xlink:href="#icon-recently"></use>
+                    </svg>
+                    <%= human_time(repo.pushed_at) %>
+                  </a>
+                </li>
+              </ul>
+            </footer>
+          </li>
           <% end %>
         </ul>
-      </div>
+      <% end %>
     </section>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  </div>
+</main>
+<!-- /.Body -->
 
-      ga('create', 'UA-58207299-2', 'auto');
-      ga('send', 'pageview');
-    </script>
-  </body>
+
+<footer class="Footer" role="contentinfo">
+  <div class="width">
+  </div>
+</footer>
+<!-- /.Footer -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-74960931-1', 'auto');
+  ga('send', 'pageview');
+</script
+</body>
 </html>

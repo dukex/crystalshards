@@ -1,0 +1,3 @@
+@function toRem($size) {
+  @return #{$size / $fonts-size}rem;
+}

@@ -1,0 +1,168 @@
+.List {
+  margin-top: 60px;
+
+  &_title {
+    display: flex;
+    font-size: toRem(20px);
+    margin-bottom: 20px;
+    font-family: $font-title;
+    color: $color-purple;
+    letter-spacing: 1px;
+
+    &--search {
+      color: $color-shadow;
+      letter-spacing: 0;
+    }
+
+    .icon {
+      margin-right: 5px;
+    }
+  }
+}
+
+.Shards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+}
+
+.Shard {
+  width: $Shard-width;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+
+  &-content {
+    margin: 15px $padding;
+  }
+
+  &_title {
+    font-size: toRem(20px);
+    color: $color-green;
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &_desc {
+    margin-top: 5px;
+    color: $color-ligth;
+    font-size: toRem(15px);
+    line-height: 1.3;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &-meta {
+    position: relative;
+    padding: 10px $padding;
+    color: $color-smoke;
+    font-size: toRem(14px);
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: $padding;
+      right: $padding;
+      height: 1px;
+      background-color: #eee;
+    }
+
+    ul {
+      display: flex;
+      align-items: center;
+    }
+
+    li {
+      margin-right: 20px;
+
+      a {
+        display: flex;
+        align-items: center;
+        color: inherit;
+
+        .Shard:hover & {
+          color: $color-ligth;
+        }
+
+        .Shard:hover &:hover {
+          color: $color-text;
+        }
+
+        img {
+          margin-right: 5px;
+        }
+
+        svg {
+          margin-right: 3px;
+        }
+
+      }
+    }
+
+    &_author {
+      img {
+        width: 20px;
+        border-radius: 50%;
+      }
+    }
+
+    &_stars {
+      svg {
+        transform: scale(1.2);
+      }
+    }
+
+    &_version {
+
+    }
+
+  }
+
+}
+
+.Pagination {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+
+  &-container {
+    display: flex;
+    width: $Shard-width;
+
+    &.prev {
+      justify-content: flex-end;
+    }
+
+    &.next {
+      justify-content: flex-start;
+    }
+  }
+
+  &_link {
+    line-height: 32px;
+    padding-left: $padding;
+    padding-right: $padding;
+    color: $color-purple;
+    border: 1px solid $color-purple;
+    box-shadow: $box-shadow;
+    border-radius: $border-radius;
+
+    &:hover {
+      color: white;
+      background-color: $color-purple;
+    }
+
+    &.isDisable {
+      opacity: .3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+  }
+}

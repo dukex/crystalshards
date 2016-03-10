@@ -7,6 +7,8 @@ require "./models/time_cache"
 
 SORT_OPTIONS = {"stars", "updated", "forks"}
 REPOS_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
+POPULAR_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
+RECENTLY_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
 
 def headers
   headers = HTTP::Headers.new
@@ -14,9 +16,9 @@ def headers
   headers
 end
 
-def crystal_repos(sort)
+def crystal_repos(sort, limit = 100)
   client = HTTP::Client.new("api.github.com", 443, true)
-  response = client.get("/search/repositories?q=language:crystal&per_page=100&sort=#{sort}", headers)
+  response = client.get("/search/repositories?q=language:crystal&per_page=#{limit}&sort=#{sort}", headers)
   GithubRepos.from_json(response.body)
 end
 
@@ -46,9 +48,13 @@ get "/" do |env|
   sort = fetch_sort(env)
   filter = fetch_filter(env)
   env.response.content_type = "text/html"
+
   repos = REPOS_CACHE.fetch(sort) { crystal_repos(sort) }
+  popular = POPULAR_CACHE.fetch(sort) { crystal_repos(:stars, 6) }
+  recently = RECENTLY_CACHE.fetch(sort) { crystal_repos(:updated, 6) }
+
   repos = filter(repos, filter) unless filter.empty?
-  Views::Index.new repos, sort, filter
+  Views::Index.new repos, popular, recently, sort, filter
 end
 
 get "/:user/:repo" do |env|

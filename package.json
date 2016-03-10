@@ -1,15 +1,31 @@
 {
-  "name": "Crystalshards",
-  "version": "0.0.1",
+  "name": "crystal-shards",
+  "version": "0.1.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/zamith/crystalshards.git"
+    "url": "git+https://github.com/f/crysalshards.git"
   },
+  "keywords": [],
+  "author": "Adem İlter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/f/crystalshards/issues"
+  },
+  "homepage": "https://github.com/f/crystalshards#readme",
   "devDependencies": {
-    "gulp": "~3.9.0",
-    "gulp-sass": "^2.0.4",
-    "node-bourbon": "^1.2.3",
-    "node-neat": "^1.4.2",
-    "node-sass": "^3.2.0"
+    "browser-sync": "^2.10.1",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-csso": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.1.1",
+    "gulp-shell": "^0.5.2",
+    "gulp-uglify": "^1.5.1"
   }
 }

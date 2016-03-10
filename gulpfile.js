@@ -1,21 +1,56 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    neat = require('node-neat').includePaths;
+    browserSync = require('browser-sync').create(),
+    autoprefixer = require('gulp-autoprefixer'),
+    csso = require('gulp-csso'),
+    rename = require('gulp-rename'),
+    concat = require('gulp-concat'),
+    uglify = require('gulp-uglify');
 
-gulp.task('js', function(){
-  return gulp
-    .src('assets/js/*.js')
-    .pipe(gulp.dest('public/js'));
+
+var refreshBrowser = browserSync.reload,
+    src = "./assets/",
+    dist = "./public/",
+    filesScript = [
+        src + "js/lib/jquery.min.js",
+        src + "js/main.js"
+    ];
+
+
+gulp.task('style', function () {
+    return gulp.src(src + "css/main.scss")
+        .pipe(sass({
+            errLogToConsole: true,
+            outputStyle: 'expanded'
+        }).on('error', sass.logError))
+        .pipe(autoprefixer())
+        //.pipe(csso())
+        //.pipe(rename({
+        //    suffix: '.min'
+        //}))
+        .pipe(gulp.dest(dist + "src/"))
+        .pipe(browserSync.stream());
 });
 
-gulp.task('sass', function () {
-  return gulp
-    .src('assets/stylesheets/**/*.sass')
-    .pipe(sass({ includePaths: ['styles'].concat(neat), indentedSyntax: true }))
-    .pipe(gulp.dest('public/css'));
+
+gulp.task('script', function () {
+    return gulp.src(filesScript)
+        .pipe(concat('main.js'))
+        //.pipe(uglify())
+        .pipe(gulp.dest(dist + "src/"))
 });
 
-gulp.task('default', function() {
-  gulp.start('js');
-  gulp.start('sass');
+
+gulp.task("watch", ["style", "script"], function () {
+    browserSync.init({
+        notify: false,
+        proxy: "localhost:3000"
+    });
+    gulp.watch(src + 'css/**/*.scss', ["style"]);
+    gulp.watch(src + 'js/main.js', ["script", refreshBrowser]);
+    gulp.watch(dist + "**/*.ecr").on("change", refreshBrowser);
 });
+
+
+gulp.task("default", ["watch"]);
+gulp.task("export", ["style", "script"]);

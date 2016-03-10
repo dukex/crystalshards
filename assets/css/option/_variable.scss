@@ -1,0 +1,38 @@
+// GLOBAL
+$transition: .2s;
+$border-radius: 3px;
+
+// SKELETON
+$padding: 18px;
+$container-width: 860px + ($padding * 2);
+// Header
+$Header-height: 90px;
+// Search
+$Search-height: 50px;
+// Shard
+$Shard-width: 48.5%;
+
+// COLOR
+$color-purple: #736480;
+$color-green: #27D3AC;
+//$color-green: #BE50CB;
+$color-text: #555;
+$color-ligth: #777;
+$color-shadow: #999;
+$color-smoke: #bbb;
+$color-hide: #ccc;
+$color-bg: rgba(117, 110, 123, .10);
+$color-box-shadow: rgba(black, .06);
+$box-shadow: 0 1px 0 $color-box-shadow;
+
+// FONT
+$fonts-size: 16px;
+$font-title: "Roboto Condensed";
+$font-sans: "Roboto";
+$font-mono: "Roboto Mono";
+
+// FONT-FACE
+$font-face-title-text: "Roboto+Condensed:400";
+$font-face-sans-text: "Roboto:400,500";
+$font-face-mono-text: "Roboto+Mono:400,700";
+$font-face-url: "https://fonts.googleapis.com/css?family=" + $font-face-title-text + "|" + $font-face-sans-text + "|" + $font-face-mono-text + "&subset=latin";
