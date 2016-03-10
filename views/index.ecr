@@ -200,11 +200,11 @@
           <li class="Shard">
             <div class="Shard-content">
               <h3 class="Shard_title">
-                <a href="<%= repo.html_url %>"><%= repo.name %></a>
+                <a href="<%= repo.html_url %>"><%= repo.name.gsub(Regex.new(filter, Regex::Options::IGNORE_CASE), "<mark>#{filter}</mark>") %></a>
               </h3>
               <p class="Shard_desc">
                 <% unless repo.description.try &.strip.empty? %>
-                  <%= repo.description %>
+                  <%= repo.description.not_nil!.gsub(Regex.new(filter, Regex::Options::IGNORE_CASE), "<mark>#{filter}</mark>")%>
                 <% end %>
               </p>
             </div>
@@ -258,6 +258,6 @@
 
   ga('create', 'UA-74960931-1', 'auto');
   ga('send', 'pageview');
-</script
+</script>
 </body>
 </html>
