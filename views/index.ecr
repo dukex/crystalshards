@@ -252,7 +252,7 @@
       <% end %>
     </section>
 
-    <% if repos_count.to_i > 0 && (!filter.empty? || !sort.empty?) %>
+    <% if repos_count.to_i > 100 && (!filter.empty? || !sort.empty?) %>
 		<div class="Pagination">
       <div class="Pagination-container prev ">
         <% if page > 1 %>
