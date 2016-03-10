@@ -16,7 +16,7 @@ def headers
   headers
 end
 
-def crystal_repos(sort, page = 1, limit = 30)
+def crystal_repos(sort, page = 1, limit = 100)
   client = HTTP::Client.new("api.github.com", 443, true)
   response = client.get("/search/repositories?q=language:crystal&per_page=#{limit}&sort=#{sort}&page=#{page}", headers)
   GithubRepos.from_json(response.body)
@@ -53,7 +53,7 @@ get "/" do |env|
   env.response.content_type = "text/html"
 
   repos = REPOS_CACHE.fetch(sort + "_" + page.to_s) { crystal_repos(sort, page) }
-  popular = POPULAR_CACHE.fetch(sort) { crystal_repos(:stars, 1, 6) }
+  popular = POPULAR_CACHE.fetch(sort) { crystal_repos(:stars, 1, 8) }
   recently = RECENTLY_CACHE.fetch(sort) { crystal_repos(:updated, 1, 6) }
   total = repos.not_nil!.total_count
   repos = filter(repos, filter) unless filter.empty?

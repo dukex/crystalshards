@@ -198,7 +198,7 @@
 
         <% if repos_count.to_i == 0 %>
           <div class="Alert">
-            <h3 class="Alert_title">No shards found.</h3>
+            <h3 class="Alert_title">No shard found.</h3>
             <p class="Alert_desc">Why don't you create one?</p>
             <pre class="init"><code>crystal init lib <b><%= filter %></b></code></pre>
           </div>
@@ -252,7 +252,7 @@
       <% end %>
     </section>
 
-    <% if !filter.empty? || !sort.empty? %>
+    <% if repos_count.to_i > 0 && (!filter.empty? || !sort.empty?) %>
 		<div class="Pagination">
       <div class="Pagination-container prev ">
         <% if page > 1 %>
@@ -262,7 +262,7 @@
         <% end %>
       </div>
       <div class="Pagination-container next">
-        <% total_page = ((total_count - (total_count % 30)) / 30) + ((total_count % 30 > 0) ? 1 : 0) %>
+        <% total_page = ((total_count - (total_count % 100)) / 100) + ((total_count % 100 > 0) ? 1 : 0) %>
         <% if (page < total_page) %>
         <a href="/?<%= filter.empty? ? "" : "filter=#{filter}" %>&<%= sort.empty? ? "" : "sort=#{sort}" %>&page=<%= page+1 %>" class="Pagination_link">
           Next Page
