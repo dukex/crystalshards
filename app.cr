@@ -16,9 +16,11 @@ def headers
   headers
 end
 
-def crystal_repos(sort, page = 1, limit = 100)
+def crystal_repos(word = "", sort = "stars", page = 1, limit = 100)
   client = HTTP::Client.new("api.github.com", 443, true)
-  response = client.get("/search/repositories?q=language:crystal&per_page=#{limit}&sort=#{sort}&page=#{page}", headers)
+  client.basic_auth ENV["GITHUB_USER"], ENV["GITHUB_KEY"]
+  url = "/search/repositories?q=#{word.to_s != "" ? "#{word}+" : ""}language:crystal&per_page=#{limit}&sort=#{sort}&page=#{page}"
+  response = client.get(url, headers)
   GithubRepos.from_json(response.body)
 end
 
@@ -52,9 +54,9 @@ get "/" do |env|
 	page = fetch_page(env)
   env.response.content_type = "text/html"
 
-  repos = REPOS_CACHE.fetch(sort + "_" + page.to_s) { crystal_repos(sort, page) }
-  popular = POPULAR_CACHE.fetch(sort) { crystal_repos(:stars, 1, 8) }
-  recently = RECENTLY_CACHE.fetch(sort) { crystal_repos(:updated, 1, 6) }
+  repos = REPOS_CACHE.fetch(filter + "_" + sort + "_" + page.to_s) { crystal_repos(filter, sort, page) }
+  popular = POPULAR_CACHE.fetch(sort) { crystal_repos("", :stars, 1, 8) }
+  recently = RECENTLY_CACHE.fetch(sort) { crystal_repos("", :updated, 1, 6) }
   total = repos.not_nil!.total_count
   repos = filter(repos, filter) unless filter.empty?
   Views::Index.new total, repos, popular, recently, sort, filter, page
