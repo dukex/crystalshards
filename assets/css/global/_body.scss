@@ -1,8 +1,12 @@
+.Body,
 .List {
   margin-top: 40px;
   @include desktop {
     margin-top: 60px;
   }
+}
+
+.List {
 
   &_title {
     display: flex;
@@ -162,5 +166,55 @@
       pointer-events: none;
     }
 
+  }
+}
+
+.Alert {
+  text-align: center;
+
+  &_title {
+    font-family: $font-title;
+    color: $color-purple;
+    font-size: toRem(24px);
+  }
+
+  &_desc {
+    margin-top: 10px;
+  }
+
+  .init {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 8px 20px;
+    color: darken($color-purple, 20);
+    background-color: rgba($color-purple, .2);
+    border-radius: $border-radius;
+
+    code {
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 100%;
+        width: 3px;
+        margin-left: 2px;
+        height: 120%;
+        background-color: $color-green;
+        animation: blink .6s infinite alternate;
+      }
+    }
+  }
+
+}
+
+@keyframes blink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

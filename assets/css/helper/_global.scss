@@ -22,6 +22,11 @@ a, button {
   transition: $transition;
 }
 
+pre, code {
+  font-family: $font-mono;
+  line-height:1.2;
+}
+
 mark {
   padding: 2px;
   color: inherit;
