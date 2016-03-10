@@ -24,7 +24,7 @@ gulp.task('style', function () {
             outputStyle: 'expanded'
         }).on('error', sass.logError))
         .pipe(autoprefixer())
-        //.pipe(csso())
+        .pipe(csso())
         //.pipe(rename({
         //    suffix: '.min'
         //}))

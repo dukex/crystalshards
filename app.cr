@@ -30,9 +30,7 @@ def filter(repos, filter)
 end
 
 def fetch_sort(context)
-  sort = context.params.query["sort"]?.try(&.to_s) || "stars"
-  sort = "stars" unless SORT_OPTIONS.includes?(sort)
-  sort
+  context.params.query["sort"]?.try(&.to_s) || ""
 end
 
 def fetch_filter(env)
@@ -52,9 +50,9 @@ get "/" do |env|
   repos = REPOS_CACHE.fetch(sort) { crystal_repos(sort) }
   popular = POPULAR_CACHE.fetch(sort) { crystal_repos(:stars, 6) }
   recently = RECENTLY_CACHE.fetch(sort) { crystal_repos(:updated, 6) }
-
+  total = repos.total_count
   repos = filter(repos, filter) unless filter.empty?
-  Views::Index.new repos, popular, recently, sort, filter
+  Views::Index.new total, repos, popular, recently, sort, filter
 end
 
 get "/:user/:repo" do |env|

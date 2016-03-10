@@ -7,7 +7,7 @@
 
   <title>CrystalShards</title>
 
-  <link rel="stylesheet" href="src/main.css">
+  <link rel="stylesheet" href="./src/main.css">
 </head>
 <body>
 <svg style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1"
@@ -17,11 +17,6 @@
       <title>search</title>
       <path class="path1"
             d="M406 598q80 0 136-56t56-136-56-136-136-56-136 56-56 136 56 136 136 56zM662 598l212 212-64 64-212-212v-34l-12-12q-76 66-180 66-116 0-197-80t-81-196 81-197 197-81 196 81 80 197q0 104-66 180l12 12h34z"></path>
-    </symbol>
-    <symbol id="icon-version" viewBox="0 0 1024 1024">
-      <title>version</title>
-      <path class="path1"
-            d="M234 298q26 0 45-19t19-45-19-45-45-19-45 19-19 45 19 45 45 19zM914 494q24 24 24 60t-24 60l-300 300q-24 24-60 24t-60-24l-384-384q-24-24-24-60v-300q0-34 25-59t59-25h300q36 0 60 24z"></path>
     </symbol>
     <symbol id="icon-star" viewBox="0 0 1024 1024">
       <title>star</title>
@@ -51,7 +46,7 @@
       </svg>
       CrystalShards
     </a>
-    <a href="" class="all-list"><b><%= repos_count %></b> total shards →</a>
+    <a href="/?sort=updated" class="all-list"><b><%= total_count %></b> total shards →</a>
   </div>
 </header>
 <!-- /.Header -->
@@ -75,13 +70,13 @@
 
     <section class="List">
 
-    <% if filter.empty? %>
+    <% if filter.empty? && sort.empty? %>
 
       <h2 class="List_title">
         <svg class="icon">
           <use xlink:href="#icon-star"></use>
         </svg>
-        POPULAR
+        <a href="/?sort=stars">POPULAR</a>
       </h2>
 
       <ul class="Shards">
@@ -136,7 +131,7 @@
         <svg class="icon">
           <use xlink:href="#icon-recently"></use>
         </svg>
-        RECENTLY UPDATED
+        <a href="/?sort=updated">RECENTLY UPDATED</a>
       </h2>
 
       <ul class="Shards">
@@ -185,7 +180,10 @@
       </ul>
 
       <% else %>
-        <h2 class="List_title List_title--search">
+
+
+        <% unless filter.empty? %>
+          <h2 class="List_title List_title--search">
           <% if repos_count.to_i == 0 %>
               No shards found.
           <% elsif repos_count.to_i == 1 %>
@@ -193,7 +191,8 @@
           <% else %>
               <%= repos_count %> shards found.
           <% end %>
-        </h2>
+          </h2>
+        <% end %>
 
         <ul class="Shards">
 

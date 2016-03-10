@@ -15,9 +15,10 @@
   align-items: center;
   font-family: $font-title;
   font-size: toRem(30px);
+  letter-spacing: -0.02em;
 
   svg {
-    margin-right: 5px;
+    margin-right: 8px;
   }
 }
 

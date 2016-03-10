@@ -13,8 +13,10 @@ $Search-height: 50px;
 $Shard-width: 48.5%;
 
 // COLOR
-$color-purple: #736480;
-$color-green: #27D3AC;
+//$color-purple: #736480;
+$color-purple: #857098;
+//$color-green: #27D3AC;
+$color-green: #16C79F;
 //$color-green: #BE50CB;
 $color-text: #555;
 $color-ligth: #777;
@@ -27,9 +29,9 @@ $box-shadow: 0 1px 0 $color-box-shadow;
 
 // FONT
 $fonts-size: 16px;
-$font-title: "Roboto Condensed";
-$font-sans: "Roboto";
-$font-mono: "Roboto Mono";
+$font-title: "Roboto Condensed", Helvetica, sans-serif;
+$font-sans: "Roboto", Helvetica, sans-serif;
+$font-mono: "Roboto Mono", Menlo, monospace;
 
 // FONT-FACE
 $font-face-title-text: "Roboto+Condensed:400";
