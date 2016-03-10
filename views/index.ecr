@@ -189,7 +189,11 @@
         <% unless filter.empty? %>
           <h2 class="List_title List_title--search">
           <% if repos_count.to_i == 0 %>
-              No shards found.
+              No shards found. <strong>Why don't you create one?</strong>
+
+              <pre>
+crystal init lib <%= filter %>
+              </pre>
           <% elsif repos_count.to_i == 1 %>
               1 shard found
           <% else %>
@@ -208,7 +212,9 @@
               </h3>
               <p class="Shard_desc">
                 <% unless repo.description.try &.strip.empty? %>
-                  <%= filter.empty? ? repo.description : repo.description.not_nil!.gsub(Regex.new(filter, Regex::Options::IGNORE_CASE), "<mark>#{filter}</mark>")%>
+                  <%= filter.empty? ? repo.description : (repo.description || "&nbsp;").chomp.gsub(Regex.new(filter, Regex::Options::IGNORE_CASE), "<mark>#{filter}</mark>")%>
+                <% else %>
+                  &nbsp;
                 <% end %>
               </p>
             </div>
@@ -243,6 +249,26 @@
         </ul>
       <% end %>
     </section>
+
+    <% if !filter.empty? || !sort.empty? %>
+		<div class="Pagination">
+      <div class="Pagination-container prev ">
+        <% if page > 1 %>
+        <a href="/?<%= filter.empty? ? "" : "filter=#{filter}" %>&<%= sort.empty? ? "" : "sort=#{sort}" %>&page=<%= page-1 %>" class="Pagination_link">
+          Previous Page
+        </a>
+        <% end %>
+      </div>
+      <div class="Pagination-container next">
+        <% total_page = ((total_count - (total_count % 30)) / 30) + ((total_count % 30 > 0) ? 1 : 0) %>
+        <% if (page < total_page) %>
+        <a href="/?<%= filter.empty? ? "" : "filter=#{filter}" %>&<%= sort.empty? ? "" : "sort=#{sort}" %>&page=<%= page+1 %>" class="Pagination_link">
+          Next Page
+        </a>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
   </div>
 </main>
 <!-- /.Body -->

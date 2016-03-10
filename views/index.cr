@@ -1,14 +1,15 @@
 require "ecr/macros"
 
 class Views::Index
-  getter :popular_repos, :recent_repos, :crystal_repos, :repos_count, :sort, :filter, :total_count
+  getter :popular_repos, :recent_repos, :crystal_repos, :repos_count, :sort, :filter, :total_count, :page
 
-  def initialize(total_repos, repos, popular, recently, sort, filter)
+  def initialize(total_repos, repos, popular, recently, sort, filter, page)
     @repos_count = repos.total_count
     @crystal_repos = repos.items
     @popular_repos = popular.items
     @recent_repos = recently.items
     @total_count = total_repos
+		@page = page
 
     @sort = sort
     @filter = filter

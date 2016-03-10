@@ -1,5 +1,8 @@
 .List {
-  margin-top: 60px;
+  margin-top: 40px;
+  @include desktop {
+    margin-top: 60px;
+  }
 
   &_title {
     display: flex;
@@ -28,11 +31,15 @@
 }
 
 .Shard {
-  width: $Shard-width;
+  width: 100%;
   margin-bottom: 20px;
   background-color: #fff;
   border-radius: $border-radius;
   box-shadow: $box-shadow;
+
+  @include desktop {
+    width: $Shard-width;
+  }
 
   &-content {
     margin: 15px $padding;

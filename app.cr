@@ -16,9 +16,9 @@ def headers
   headers
 end
 
-def crystal_repos(sort, limit = 100)
+def crystal_repos(sort, page = 1, limit = 30)
   client = HTTP::Client.new("api.github.com", 443, true)
-  response = client.get("/search/repositories?q=language:crystal&per_page=#{limit}&sort=#{sort}", headers)
+  response = client.get("/search/repositories?q=language:crystal&per_page=#{limit}&sort=#{sort}&page=#{page}", headers)
   GithubRepos.from_json(response.body)
 end
 
@@ -29,12 +29,16 @@ def filter(repos, filter)
   filtered
 end
 
-def fetch_sort(context)
-  context.params.query["sort"]?.try(&.to_s) || ""
+def fetch_sort(env)
+  env.params.query["sort"]?.try(&.to_s) || ""
 end
 
 def fetch_filter(env)
   env.params.query["filter"]?.try(&.to_s.strip.downcase) || ""
+end
+
+def fetch_page(env)
+  env.params.query["page"]?.try(&.to_i) || 0
 end
 
 private def matches_filter?(item : GithubRepo, filter : String)
@@ -45,14 +49,15 @@ end
 get "/" do |env|
   sort = fetch_sort(env)
   filter = fetch_filter(env)
+	page = fetch_page(env)
   env.response.content_type = "text/html"
 
-  repos = REPOS_CACHE.fetch(sort) { crystal_repos(sort) }
-  popular = POPULAR_CACHE.fetch(sort) { crystal_repos(:stars, 6) }
-  recently = RECENTLY_CACHE.fetch(sort) { crystal_repos(:updated, 6) }
-  total = repos.total_count
+  repos = REPOS_CACHE.fetch(sort + "_" + page.to_s) { crystal_repos(sort, page) }
+  popular = POPULAR_CACHE.fetch(sort) { crystal_repos(:stars, 1, 6) }
+  recently = RECENTLY_CACHE.fetch(sort) { crystal_repos(:updated, 1, 6) }
+  total = repos.not_nil!.total_count
   repos = filter(repos, filter) unless filter.empty?
-  Views::Index.new total, repos, popular, recently, sort, filter
+  Views::Index.new total, repos, popular, recently, sort, filter, page
 end
 
 get "/:user/:repo" do |env|
