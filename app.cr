@@ -1,5 +1,6 @@
 require "kemal"
 require "http/client"
+require "json"
 require "emoji"
 require "./views/index"
 require "./models/github_repos"
@@ -10,6 +11,8 @@ REPOS_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
 ALL_REPOS_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
 POPULAR_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
 RECENTLY_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
+
+NAMES = JSON.parse(File.read("./misc/names.json"))
 
 def headers
   headers = HTTP::Headers.new
@@ -51,6 +54,10 @@ get "/" do |env|
 
   total = all_repos.not_nil!.total_count
   Views::Index.new total, repos, popular, recently, sort, filter, page
+end
+
+get "/name" do
+	NAMES.as_a.sample
 end
 
 get "/:user/:repo" do |env|
