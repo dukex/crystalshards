@@ -180,6 +180,9 @@
 
   &_desc {
     margin-top: 10px;
+    b {
+      font-weight: 500;
+    }
   }
 
   .init {
@@ -189,6 +192,16 @@
     color: darken($color-purple, 20);
     background-color: rgba($color-purple, .2);
     border-radius: $border-radius;
+
+    &._big {
+      font-size: 1.4em;
+    }
+
+    &._small {
+      font-size: .8em;
+      margin-top: 10px;
+      background-color: rgba($color-purple, .1);
+    }
 
     code {
       position: relative;
@@ -208,6 +221,13 @@
     }
   }
 
+}
+
+.Divider {
+  width: 20%;
+  margin: 40px auto;
+  border-width: 0 0 1px 0;
+  border-color: #ddd;
 }
 
 @keyframes blink {

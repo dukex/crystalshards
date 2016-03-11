@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>CrystalShards</title>
+
+  <link href="/img/favicon.svg" sizes="any" mask rel="icon"/>
+  <link href="/img/favicon.ico" rel="icon"/>
+  <link href="/img/favicon.png" sizes="192x192" rel="icon"/>
+
+  <link rel="stylesheet" href="/src/main.css">
+</head>
+<body>
+
+<header class="Header" role="banner">
+  <div class="width">
+    <a class="Logo" href="/">
+      <svg width="29" height="34" viewBox="0 0 29 34" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" fill-rule="evenodd">
+          <path
+              d="M28.532 16.49c.48.282.48.737 0 1.02L1.268 33.49C.788 33.773.4 33.546.4 33V1c0-.553.388-.773.868-.49l27.264 15.98z"
+              fill="#FFF"/>
+          <path d="M11.642 17.968L4.426 29.316 24.05 17.968H11.643z" fill="#94EAD7"/>
+          <path d="M10.08 17.018l-7.622 11.85v-23.7l7.62 11.85z" fill="#D7FBF3" opacity=".883"/>
+        </g>
+      </svg>
+      CrystalShards
+    </a>
+    <a href="/?sort=updated" class="all-list">search shards →</a>
+  </div>
+</header>
+<!-- /.Header -->
+
+
+<main class="Body" role="main">
+  <div class="width">
+    <section>
+      <div class="Alert">
+        <h3 class="Alert_title">Name your next project with a cool crystal name:</h3>
+        <pre class="init _big"><code>crystal init lib <b><a href="https://en.wikipedia.org/wiki/<%= random_name.to_s.gsub(/.*\-/, "").capitalize %>"><%= random_name %></a></b></code></pre>
+      </div>
+      <hr class="Divider">
+      <div class="Alert">
+        <p class="Alert_desc">Or you can use CLI to get a cool project</p>
+        <pre class="init _small">crystal init lib $(curl -s crystalshards.xyz/name)</pre>
+      </div>
+    </section>
+  </div>
+</main>
+<!-- /.Body -->
+
+
+<footer class="Footer" role="contentinfo">
+  <div class="width">
+  </div>
+</footer>
+<!-- /.Footer -->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-74960931-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

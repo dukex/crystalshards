@@ -56,8 +56,13 @@ get "/" do |env|
   Views::Index.new total, repos, popular, recently, sort, filter, page
 end
 
-get "/name" do
-	NAMES.as_a.sample
+get "/name" do |env|
+	random_name = NAMES.as_a.sample
+  if env.request.headers["Accept"] == "*/*"
+		random_name
+	else
+		render "views/name.ecr"
+	end
 end
 
 get "/:user/:repo" do |env|
