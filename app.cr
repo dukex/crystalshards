@@ -30,7 +30,8 @@ def fetch_sort(env)
 end
 
 def fetch_filter(env)
-  env.params.query["filter"]?.try(&.to_s.strip.downcase) || ""
+  filter = env.params.query["filter"]?.try(&.to_s.strip.downcase) || ""
+  filter.gsub(/\W/, ".")
 end
 
 def fetch_page(env)
