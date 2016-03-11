@@ -31,7 +31,7 @@ end
 
 def fetch_filter(env)
   filter = env.params.query["filter"]?.try(&.to_s.strip.downcase) || ""
-  filter.gsub(/\W/, ".")
+  filter.gsub(/\W/, "")
 end
 
 def fetch_page(env)
