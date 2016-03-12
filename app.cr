@@ -23,9 +23,12 @@ end
 def crystal_repos(word = "", sort = "stars", page = 1, limit = 100)
   client = HTTP::Client.new("api.github.com", 443, true)
   client.basic_auth ENV["GITHUB_USER"], ENV["GITHUB_KEY"]
-  url = "/search/repositories?q=#{word.to_s != "" ? "#{word}+" : ""}language:crystal&per_page=#{limit}&sort=#{sort}&page=#{page}"
+  url = "/search/repositories?q=#{word.to_s != "" ? "#{word}+" : ""}language:crystal&per_page=#{limit + 10}&sort=#{sort}&page=#{page}"
   response = client.get(url, headers)
-  GithubRepos.from_json(response.body)
+  repos = GithubRepos.from_json(response.body)
+  repos.items.select! { |item| item.private == false }
+  repos.items = repos.items[0, limit]
+  repos
 end
 
 def fetch_sort(env)

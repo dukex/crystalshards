@@ -10,6 +10,7 @@ class GithubRepo
     owner: Owner,
     pushed_at: { type: Time, converter: Time::Format.new("%FT%TZ") },
     forks: { type: Int32 },
+    private: { type: Bool },
   })
 
   def name
