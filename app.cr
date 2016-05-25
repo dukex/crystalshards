@@ -44,19 +44,23 @@ def fetch_page(env)
   env.params.query["page"]?.try(&.to_i) || 0
 end
 
-get "/" do |env|
+def main(env, query = "")
   sort = fetch_sort(env)
   filter = fetch_filter(env)
 	page = fetch_page(env)
   env.response.content_type = "text/html"
 
-  repos = REPOS_CACHE.fetch(filter + "_" + sort + "_" + page.to_s) { crystal_repos(filter, sort, page) }
-  all_repos = ALL_REPOS_CACHE.fetch("all") { crystal_repos("", sort, page) }
-  popular = POPULAR_CACHE.fetch(sort) { crystal_repos("", :stars, 1, 8) }
-  recently = RECENTLY_CACHE.fetch(sort) { crystal_repos("", :updated, 1, 6) }
+  repos = REPOS_CACHE.fetch(filter + "_" + query + "_" + sort + "_" + page.to_s) { crystal_repos(query + filter, sort, page) }
+  all_repos = ALL_REPOS_CACHE.fetch("all" + query) { crystal_repos(query, sort, page) }
+  popular = POPULAR_CACHE.fetch(sort + query) { crystal_repos(query, :stars, 1, 8) }
+  recently = RECENTLY_CACHE.fetch(sort + query) { crystal_repos(query, :updated, 1, 6) }
 
   total = all_repos.not_nil!.total_count
   Views::Index.new total, repos, popular, recently, sort, filter, page
+end
+
+get "/" do |env|
+  main env
 end
 
 get "/name" do |env|
@@ -68,6 +72,12 @@ get "/name" do |env|
 	end
 end
 
+get "/:user" do |env|
+  main env, "user:#{env.params.url["user"]}"
+end
+
 get "/:user/:repo" do |env|
   env.redirect("https://github.com/#{env.params.url["user"]}/#{env.params.url["repo"]}")
 end
+
+Kemal.run
