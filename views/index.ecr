@@ -54,7 +54,7 @@
       </svg>
       CrystalShards
     </a>
-    <a href="/?sort=updated" class="all-list"><b><%= total_count %></b> total shards →</a>
+    <a href="/?sort=updated&page=1" class="all-list"><b><%= total_count %></b> total shards →</a>
   </div>
 </header>
 <!-- /.Header -->
@@ -190,7 +190,7 @@
         <svg class="icon">
           <use xlink:href="#icon-recently"></use>
         </svg>
-        <a href="/?sort=updated">RECENTLY UPDATED</a>
+        <a href="/?sort=updated&page=1">RECENTLY UPDATED</a>
       </h2>
 
       <ul class="Shards">
@@ -308,7 +308,7 @@
         </ul>
       <% end %>
       <% if repos_count.to_i > 0 %>
-      <a class="List-more" href="/?sort=updated">MORE...</a>
+      <a class="List-more" href="/?sort=updated&page=1">MORE...</a>
       <% end %>
     </section>
 
