@@ -6,11 +6,12 @@ require "./views/index"
 require "./models/github_repos"
 require "./models/time_cache"
 
-SORT_OPTIONS = {"stars", "updated", "forks"}
-REPOS_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
+SORT_OPTIONS    = {"stars", "updated", "forks"}
+REPOS_CACHE     = TimeCache(String, GithubRepos).new(30.minutes)
 ALL_REPOS_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
-POPULAR_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
-RECENTLY_CACHE = TimeCache(String, GithubRepos).new(30.minutes)
+TRENDING_CACHE  = TimeCache(String, GithubRepos).new(30.minutes)
+POPULAR_CACHE   = TimeCache(String, GithubRepos).new(30.minutes)
+RECENTLY_CACHE  = TimeCache(String, GithubRepos).new(30.minutes)
 
 NAMES = JSON.parse(File.read("./misc/names.json"))
 
@@ -20,10 +21,12 @@ def headers
   headers
 end
 
-def crystal_repos(word = "", sort = "stars", page = 1, limit = 100)
+def crystal_repos(word = "", sort = "stars", page = 1, limit = 100, after_date = 1.years.ago)
   client = HTTP::Client.new("api.github.com", 443, true)
   client.basic_auth ENV["GITHUB_USER"], ENV["GITHUB_KEY"]
-  url = "/search/repositories?q=#{word.to_s != "" ? "#{word}+" : ""}language:crystal&per_page=#{limit + 10}&sort=#{sort}&page=#{page}"
+  date_filter = after_date.to_s("%Y-%m-%d")
+  url = "/search/repositories?q=#{word.to_s != "" ? "#{word}+" : ""}language:crystal#{date_filter != "" ? "+pushed:>#{date_filter}" : ""}&per_page=#{limit + 10}&sort=#{sort}&page=#{page}"
+  p url
   response = client.get(url, headers)
   repos = GithubRepos.from_json(response.body)
   repos.items.select! { |item| item.private == false }
@@ -47,16 +50,17 @@ end
 def main(env, query = "")
   sort = fetch_sort(env)
   filter = fetch_filter(env)
-	page = fetch_page(env)
+  page = fetch_page(env)
   env.response.content_type = "text/html"
 
   repos = REPOS_CACHE.fetch(filter + "_" + query + "_" + sort + "_" + page.to_s) { crystal_repos(query + filter, sort, page) }
   all_repos = ALL_REPOS_CACHE.fetch("all" + query) { crystal_repos(query, sort, page) }
+  trending = TRENDING_CACHE.fetch(sort + query) { crystal_repos(query, :stars, 1, 10, 1.weeks.ago) }
   popular = POPULAR_CACHE.fetch(sort + query) { crystal_repos(query, :stars, 1, 8) }
   recently = RECENTLY_CACHE.fetch(sort + query) { crystal_repos(query, :updated, 1, 6) }
 
   total = all_repos.not_nil!.total_count
-  Views::Index.new total, repos, popular, recently, sort, filter, page
+  Views::Index.new total, repos, trending, popular, recently, sort, filter, page
 end
 
 get "/" do |env|
@@ -64,12 +68,12 @@ get "/" do |env|
 end
 
 get "/name" do |env|
-	random_name = NAMES.as_a.sample
+  random_name = NAMES.as_a.sample
   if env.request.headers["Accept"] == "*/*"
-		random_name
-	else
-		render "views/name.ecr"
-	end
+    random_name
+  else
+    render "views/name.ecr"
+  end
 end
 
 get "/:user" do |env|

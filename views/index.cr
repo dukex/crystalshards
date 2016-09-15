@@ -4,17 +4,19 @@ class Views::Index
   @repos_count : Int32
   @total_count : Int32
   @crystal_repos : Array(GithubRepo)
+  @trending_repos : Array(GithubRepo)
   @popular_repos : Array(GithubRepo)
   @recent_repos : Array(GithubRepo)
   @page : Int32
   @sort : String
   @filter : String
 
-  getter :popular_repos, :recent_repos, :crystal_repos, :repos_count, :sort, :filter, :total_count, :page
+  getter :trending_repos, :popular_repos, :recent_repos, :crystal_repos, :repos_count, :sort, :filter, :total_count, :page
 
-  def initialize(total_repos, repos, popular, recently, sort, filter, page)
+  def initialize(total_repos, repos, trending, popular, recently, sort, filter, page)
     @repos_count = repos.total_count
     @crystal_repos = repos.items
+    @trending_repos = trending.items
     @popular_repos = popular.items
     @recent_repos = recently.items
     @total_count = total_repos

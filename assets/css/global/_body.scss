@@ -15,6 +15,11 @@
     font-family: $font-title;
     color: $color-purple;
     letter-spacing: 1px;
+    a {
+      &:hover {
+        opacity: 0.7;
+      }
+    }
 
     &--search {
       color: $color-shadow;
@@ -23,6 +28,16 @@
 
     .icon {
       margin-right: 5px;
+    }
+  }
+
+  &-more {
+    float: right;
+    color: $color-purple;
+    letter-spacing: 1px;
+    font-size: toRem(14px);
+    &:hover {
+      opacity: 0.7;
     }
   }
 }

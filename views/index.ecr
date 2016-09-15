@@ -22,6 +22,10 @@
       <path class="path1"
             d="M406 598q80 0 136-56t56-136-56-136-136-56-136 56-56 136 56 136 136 56zM662 598l212 212-64 64-212-212v-34l-12-12q-76 66-180 66-116 0-197-80t-81-196 81-197 197-81 196 81 80 197q0 104-66 180l12 12h34z"></path>
     </symbol>
+    <symbol id="icon-fire" viewBox="0 0 32 32">
+      <title>fire</title>
+      <path class="path1" d="M10.031 32c-2.133-4.438-0.997-6.981 0.642-9.376 1.795-2.624 2.258-5.221 2.258-5.221s1.411 1.834 0.847 4.703c2.493-2.775 2.963-7.196 2.587-8.889 5.635 3.938 8.043 12.464 4.798 18.783 17.262-9.767 4.294-24.38 2.036-26.027 0.753 1.646 0.895 4.433-0.625 5.785-2.573-9.759-8.937-11.759-8.937-11.759 0.753 5.033-2.728 10.536-6.084 14.648-0.118-2.007-0.243-3.392-1.298-5.312-0.237 3.646-3.023 6.617-3.777 10.27-1.022 4.946 0.765 8.568 7.555 12.394z"></path>
+    </symbol>
     <symbol id="icon-star" viewBox="0 0 1024 1024">
       <title>star</title>
       <path class="path1"
@@ -75,12 +79,63 @@
     <section class="List">
 
     <% if filter.empty? && sort.empty? %>
+      <h2 class="List_title">
+        <svg class="icon">
+          <use xlink:href="#icon-fire"></use>
+        </svg>
+        TRENDING
+      </h2>
 
+      <ul class="Shards">
+        <% trending_repos.each do |repo| %>
+        <li class="Shard">
+          <div class="Shard-content">
+            <h3 class="Shard_title">
+              <a href="<%= repo.html_url %>"><%= repo.name %></a>
+            </h3>
+            <p class="Shard_desc">
+              <% unless repo.description.try &.strip.empty? %>
+                <%= repo.description %>
+              <% end %>
+            </p>
+          </div>
+          <footer class="Shard-meta">
+            <ul>
+              <li class="Shard-meta_author">
+                <a href="/<%= repo.owner.login %>">
+                  <img src="<%= repo.owner.avatar_url %>">
+                  <%= repo.owner.login %>
+                </a>
+              </li>
+              <li class="Shard-meta_stars">
+                <a href="<%= repo.html_url %>/stargazers">
+                  <svg class="icon">
+                    <use xlink:href="#icon-star"></use>
+                  </svg>
+                  <%= repo.stargazers_count %>
+                </a>
+              </li>
+              <li class="Shard-meta_version">
+                <a href="<%= repo.html_url %>/commits">
+                  <svg class="icon">
+                    <use xlink:href="#icon-recently"></use>
+                  </svg>
+                  <%= human_time(repo.pushed_at) %>
+                </a>
+              </li>
+            </ul>
+          </footer>
+        </li>
+        <% end %>
+      </ul>
+    </section>
+
+    <section class="List">
       <h2 class="List_title">
         <svg class="icon">
           <use xlink:href="#icon-star"></use>
         </svg>
-        <a href="/?sort=stars">POPULAR</a>
+        <a href="/?sort=stars">ALL TIME POPULAR</a>
       </h2>
 
       <ul class="Shards">
@@ -125,7 +180,7 @@
         </li>
         <% end %>
       </ul>
-
+      <a class="List-more" href="/?sort=stars">MORE...</a>
     </section>
 
 
@@ -252,6 +307,7 @@
           <% end %>
         </ul>
       <% end %>
+      <a class="List-more" href="/?sort=stars">MORE...</a>
     </section>
 
     <% if repos_count.to_i > 100 && (!filter.empty? || !sort.empty?) %>
