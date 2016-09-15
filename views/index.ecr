@@ -307,7 +307,13 @@
           <% end %>
         </ul>
       <% end %>
+<<<<<<< HEAD
       <a class="List-more" href="/?sort=stars&page=1">MORE...</a>
+=======
+      <% if repos_count.to_i > 0 %>
+      <a class="List-more" href="/?sort=updated">MORE...</a>
+      <% end %>
+>>>>>>> 233346e2c0be5eddb7a437cdf326d0e28b8aaff3
     </section>
 
     <% if repos_count.to_i > 100 && (!filter.empty? || !sort.empty?) %>
