@@ -54,7 +54,7 @@ def main(env, query = "")
   env.response.content_type = "text/html"
 
   repos = REPOS_CACHE.fetch(filter + "_" + query + "_" + sort + "_" + page.to_s) { crystal_repos(query + filter, sort, page) }
-  all_repos = ALL_REPOS_CACHE.fetch("all" + query) { crystal_repos(query, sort, page) }
+  all_repos = ALL_REPOS_CACHE.fetch("all" + query) { crystal_repos(query, sort, page, 100, 5.years.ago) }
   trending = TRENDING_CACHE.fetch(sort + query) { crystal_repos(query, :stars, 1, 10, 1.weeks.ago) }
   popular = POPULAR_CACHE.fetch(sort + query) { crystal_repos(query, :stars, 1, 8) }
   recently = RECENTLY_CACHE.fetch(sort + query) { crystal_repos(query, :updated, 1, 6) }
