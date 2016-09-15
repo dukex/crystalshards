@@ -13,7 +13,7 @@ You can read about [Deploying to Heroku] or just follow these steps:
 
 ```bash
 NAME=crystal-shards
-heroku create $NAME --buildpack https://github.com/zamith/heroku-buildpack-crystal
+heroku create $NAME --buildpack https://github.com/crystal-lang/heroku-buildpack-crystal
 git push heroku master
 ```
 
