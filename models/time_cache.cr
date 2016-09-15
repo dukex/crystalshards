@@ -1,5 +1,5 @@
 struct TimeCache(K, V)
-  def initialize(@expire_time)
+  def initialize(@expire_time : Time::Span)
     @cache = {} of K => Entry(V)
   end
 
@@ -20,7 +20,7 @@ struct TimeCache(K, V)
     getter value
     getter expire_time
 
-    def initialize(@value : V, @expire_time)
+    def initialize(@value : V, @expire_time : Time)
     end
   end
 end

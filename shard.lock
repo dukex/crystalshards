@@ -6,7 +6,7 @@ shards:
 
   kemal:
     github: sdogruyol/kemal
-    version: 0.12.0
+    version: 0.15.1
 
   kilt:
     github: jeromegn/kilt
@@ -14,5 +14,5 @@ shards:
 
   radix:
     github: luislavena/radix
-    version: 0.3.0
+    version: 0.3.1
 

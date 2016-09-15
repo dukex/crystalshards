@@ -1,6 +1,15 @@
 require "ecr/macros"
 
 class Views::Index
+  @repos_count : Int32
+  @total_count : Int32
+  @crystal_repos : Array(GithubRepo)
+  @popular_repos : Array(GithubRepo)
+  @recent_repos : Array(GithubRepo)
+  @page : Int32
+  @sort : String
+  @filter : String
+
   getter :popular_repos, :recent_repos, :crystal_repos, :repos_count, :sort, :filter, :total_count, :page
 
   def initialize(total_repos, repos, popular, recently, sort, filter, page)
@@ -9,7 +18,7 @@ class Views::Index
     @popular_repos = popular.items
     @recent_repos = recently.items
     @total_count = total_repos
-		@page = page
+    @page = page
 
     @sort = sort
     @filter = filter
@@ -33,5 +42,5 @@ class Views::Index
     end
   end
 
-  ecr_file "./views/index.ecr"
+  ECR.def_to_s "./views/index.ecr"
 end
