@@ -1,6 +1,11 @@
 name: crystalshards
 version: 0.1.0
-author: Luis Ferreira
+authors:
+  - Luis Ferreira
+  - Fatih Kadir Akın
+  - Duke <emersonalmeidax@gmail.com>
+
+license: MIT
 
 dependencies:
   kemal:
@@ -8,4 +13,11 @@ dependencies:
     version: 0.15.1
   emoji:
     github: veelenga/emoji.cr
-    version: 0.1.0
+    version: 0.1.
+  pg:
+    github: will/crystal-pg
+  spec-kemal:
+    github: sdogruyol/spec-kemal
+    branch: master
+  micrate:
+    github: juanedi/micrate
