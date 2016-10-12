@@ -1,0 +1,20 @@
+name: crystalshards
+version: 0.1.0
+
+authors:
+  - Duke <emersonalmeidax@gmail.com>
+
+license: MIT
+
+
+dependencies:
+  pg:
+    github: will/crystal-pg
+  spec-kemal:
+    github: sdogruyol/spec-kemal
+    branch: master
+  kemal:
+    github: sdogruyol/kemal
+    branch: master
+  micrate:
+    github: juanedi/micrate

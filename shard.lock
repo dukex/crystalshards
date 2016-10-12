@@ -1,0 +1,30 @@
+version: 1.0
+shards:
+  kemal:
+    github: sdogruyol/kemal
+    commit: 5ce40d0971ef2eb00f2f38510371a687a5764aaa
+
+  kilt:
+    github: jeromegn/kilt
+    version: 0.3.3
+
+  micrate:
+    github: juanedi/micrate
+    version: 0.2.2
+
+  multipart:
+    github: RX14/multipart.cr
+    version: 0.1.0
+
+  pg:
+    github: will/crystal-pg
+    version: 0.11.0
+
+  radix:
+    github: luislavena/radix
+    version: 0.3.1
+
+  spec-kemal:
+    github: sdogruyol/spec-kemal
+    commit: fee1b2b7c006b685d61c8fcea63d130aa8ef1af6
+
