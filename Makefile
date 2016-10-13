@@ -1,3 +1,5 @@
+all: clean bin/update bin/micrate
+
 update: bin/update
 	./bin/update
 
@@ -11,6 +13,5 @@ clean:
 	rm -Rf ./bin/update
 
 
-all: clean bin/update bin/micrate
 
 .PHONY: update all
