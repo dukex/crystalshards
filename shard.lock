@@ -1,5 +1,9 @@
 version: 1.0
 shards:
+  github:
+    github: dukex/github
+    commit: 334893e72c1cb4ba6e8a6c494e30661d8b62dbed
+
   kemal:
     github: sdogruyol/kemal
     commit: 5ce40d0971ef2eb00f2f38510371a687a5764aaa
