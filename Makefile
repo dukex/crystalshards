@@ -9,6 +9,12 @@ bin/micrate:
 bin/update:
 	crystal build bin/update.cr -o bin/update --release
 
+migrate_up: bin/micrate
+	./bin/micrate up
+
+migrate_down: bin/micrate
+	./bin/micrate down
+
 clean:
 	rm -Rf ./bin/update
 

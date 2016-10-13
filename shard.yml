@@ -6,6 +6,8 @@ authors:
 
 license: MIT
 
+scripts:
+  postinstall: make all migrate_up
 
 dependencies:
   pg:
