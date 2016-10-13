@@ -13,11 +13,15 @@ dependencies:
     version: 0.15.1
   emoji:
     github: veelenga/emoji.cr
-    version: 0.1.
+    version: 0.1.0
   pg:
     github: will/crystal-pg
+  micrate:
+    github: juanedi/micrate
+  github:
+    github: dukex/github
+
+development_dependencies:
   spec-kemal:
     github: sdogruyol/spec-kemal
     branch: master
-  micrate:
-    github: juanedi/micrate
