@@ -10,11 +10,18 @@ license: MIT
 dependencies:
   pg:
     github: will/crystal-pg
-  spec-kemal:
-    github: sdogruyol/spec-kemal
-    branch: master
+
   kemal:
     github: sdogruyol/kemal
     branch: master
+
   micrate:
     github: juanedi/micrate
+
+  github:
+    github: dukex/github
+
+development_dependencies:
+  spec-kemal:
+    github: sdogruyol/spec-kemal
+    branch: master
