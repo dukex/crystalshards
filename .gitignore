@@ -6,3 +6,4 @@ node_modules
 /.shards/
 bin/update
 
+bin/micrate
