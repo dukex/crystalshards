@@ -18,6 +18,4 @@ migrate_down: bin/micrate
 clean:
 	rm -Rf ./bin/update
 
-
-
 .PHONY: update all
