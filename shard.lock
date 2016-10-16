@@ -6,7 +6,7 @@ shards:
 
   github:
     github: dukex/github
-    commit: 70f4aeb17733943695a802f5f5cd2ff1d018d959
+    commit: 038457c86304c88df342ce4d5d43006c7338a63f
 
   kemal:
     github: sdogruyol/kemal

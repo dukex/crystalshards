@@ -23,6 +23,7 @@ dependencies:
     github: juanedi/micrate
   github:
     github: dukex/github
+
 development_dependencies:
   spec-kemal:
     github: sdogruyol/spec-kemal
