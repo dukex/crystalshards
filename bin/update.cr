@@ -1,32 +1,59 @@
-require "../src/crystalshards"
 require "pg"
 require "github"
 
 connection = PG.connect ENV.fetch("DATABASE_URL")
 client = Github::Client.new access_token: ENV.fetch("ACCESS_TOKEN")
 
+def create_or_update(github_id, table, fields, values, data)
+  connection = PG.connect ENV.fetch("DATABASE_URL")
+  exists = connection.exec({String}, "SELECT id FROM #{table} WHERE github_id=$1 LIMIT 1", [github_id]).rows.size > 0
+
+  if exists
+    connection.exec(%{
+    UPDATE #{table}
+      SET #{fields.split(",").zip(values.split(",")).to_h.map { |k, v| "#{k} = #{v}" }.join(",")}
+      WHERE github_id = $1;
+    }, data)
+
+    puts "+ #{data} in #{table} updated"
+  else
+    connection.exec(%{
+      INSERT INTO #{table} (
+        #{fields}
+      ) VALUES (
+        #{values}
+      )
+    }, data)
+
+    puts "+ #{data} in #{table} saved"
+  end
+end
+
 def save(repositories, client, connection)
   repositories.each do |r|
     begin
       client.content(r, "shard.yml")
 
-      connection.exec(%{
-      INSERT INTO shards (
-        github_id,
-        name,
-        full_name,
-        description,
-        watchers_count,
-        stargazers_count,
-        url,
-        homepage
-      ) VALUES (
-        $1, $2, $3, $4, $5, $6, $7, $8
+      owner = r.owner
+
+      create_or_update(
+        r.id,
+        "shards",
+        "github_id, name, full_name, description, watchers_count, stargazers_count, url, html_url, homepage, owner_github_id, pushed_at, updated_at",
+        "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12",
+        [r.id, r.name, r.full_name, r.description, r.watchers_count, r.stargazers_count, r.url, r.html_url, r.homepage || "", owner.id, r.pushed_at, Time.now]
       )
-    }, [r.id, r.name, r.full_name, r.description, r.watchers_count, r.stargazers_count, r.url, r.homepage || ""])
-      "+ #{r.name} saved"
-    rescue PQ::PQError
-      puts "+ shard #{r.name} exists"
+
+      create_or_update(
+        owner.id,
+        "owners",
+        "github_id, login, avatar_url, html_url, type",
+        "$1, $2, $3, $4, $5",
+        [owner.id, owner.login, owner.avatar_url, owner.html_url, owner.type]
+      )
+    rescue e : PQ::PQError
+      puts e
+      puts "============="
     rescue Github::NotFound
       puts "- no found shard.yml in #{r.name} (#{r.html_url})"
     end
