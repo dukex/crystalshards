@@ -18,4 +18,10 @@ migrate_down: bin/micrate
 clean:
 	rm -Rf ./bin/update
 
+node_modules/gulp/bin/gulp.js:
+	npm install
+
+assets_compile: node_modules/gulp/bin/gulp.js
+	node_modules/gulp/bin/gulp.js export
+
 .PHONY: update all
