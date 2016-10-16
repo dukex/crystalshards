@@ -1,12 +1,16 @@
 version: 1.0
 shards:
+  emoji:
+    github: veelenga/emoji.cr
+    version: 0.1.0
+
   github:
     github: dukex/github
-    commit: 334893e72c1cb4ba6e8a6c494e30661d8b62dbed
+    commit: 70f4aeb17733943695a802f5f5cd2ff1d018d959
 
   kemal:
     github: sdogruyol/kemal
-    commit: 5ce40d0971ef2eb00f2f38510371a687a5764aaa
+    commit: 5d71c765544b2030e102ba523480deed8430e0aa
 
   kilt:
     github: jeromegn/kilt

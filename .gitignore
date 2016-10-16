@@ -1,7 +1,8 @@
+.sass-cache
+node_modules
 /doc/
 /libs/
 /.crystal/
 /.shards/
 bin/update
-
 bin/micrate

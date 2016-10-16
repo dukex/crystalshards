@@ -2,27 +2,27 @@ name: crystalshards
 version: 0.1.0
 
 authors:
+  - Luis Ferreira
+  - Fatih Kadir Akın
   - Duke <emersonalmeidax@gmail.com>
 
 license: MIT
 
-scripts:
-  postinstall: make all migrate_up
-
 dependencies:
-  pg:
-    github: will/crystal-pg
-
   kemal:
     github: sdogruyol/kemal
     branch: master
-
   micrate:
     github: juanedi/micrate
-
+  emoji:
+    github: veelenga/emoji.cr
+    version: 0.1.0
+  pg:
+    github: will/crystal-pg
+  micrate:
+    github: juanedi/micrate
   github:
     github: dukex/github
-
 development_dependencies:
   spec-kemal:
     github: sdogruyol/spec-kemal

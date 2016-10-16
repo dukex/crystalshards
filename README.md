@@ -1,31 +1,41 @@
-# crystalshards
+# CrystalShards
 
-TODO: Write a description here
+> This is a fork of `zamith/crystalshards` repository.
 
-## Installation
+A shard is what we call a crystal library, and this is the website that lists
+them all.
 
+# Deploying to Heroku
 
-TODO: Write installation instructions here
+To experiment with this, you can post this to your own heroku site.
 
+You can read about [Deploying to Heroku] or just follow these steps:
 
-## Usage
+```bash
+NAME=crystal-shards
+heroku create $NAME --buildpack https://github.com/crystal-lang/heroku-buildpack-crystal
+git push heroku master
+```
 
+[Deploying to Heroku]: https://subvisual.co/blog/posts/63-deploying-a-crystal-application-to-heroku
 
+# Using Locally
 
-TODO: Write usage instructions here
+To use a local copy, clone the repository.  Then install necessary shards.
 
-## Development
+```bash
+shards install
+```
 
-TODO: Write development instructions here
+You will need to set two enviornment variables: `GITHUB_USER` and `GITHUB_KEY`.  CrystalShards uses basic auth, so an example `~/.*rc` might look like this:
 
-## Contributing
+```bash
+export GITHUB_USER="myGithubUsername"
+export GITHUB_KEY="myGithubPassword"
+```
+When you are finished, remember to restart your terminal or `source` your edited file.
 
-1. Fork it ( https://github.com/[your-github-name]/crystalshards/fork )
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Push to the branch (git push origin my-new-feature)
-5. Create a new Pull Request
-
-## Contributors
-
-- [[your-github-name]](https://github.com/[your-github-name]) Duke - creator, maintainer
+```bash
+# starting a server
+crystal ./app.cr
+```
