@@ -54,7 +54,7 @@ def save(repositories, client, connection)
     rescue e : PQ::PQError
       puts e
       puts "============="
-    rescue Github::NotFound
+    rescue Github::Error::NotFound
       puts "- no found shard.yml in #{r.name} (#{r.html_url})"
     end
   end
