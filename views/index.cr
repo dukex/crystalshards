@@ -3,10 +3,10 @@ require "ecr/macros"
 class Views::Index
   @repos_count : Int32
   @total_count : Int32
-  @crystal_repos : Array(GithubRepo)
-  @trending_repos : Array(GithubRepo)
-  @popular_repos : Array(GithubRepo)
-  @recent_repos : Array(GithubRepo)
+  @crystal_repos : Array(Shard)
+  @trending_repos : Array(Shard)
+  @popular_repos : Array(Shard)
+  @recent_repos : Array(Shard)
   @page : Int32
   @sort : String
   @filter : String
@@ -14,11 +14,11 @@ class Views::Index
   getter :trending_repos, :popular_repos, :recent_repos, :crystal_repos, :repos_count, :sort, :filter, :total_count, :page
 
   def initialize(total_repos, repos, trending, popular, recently, sort, filter, page)
-    @repos_count = repos.total_count
-    @crystal_repos = repos.items
-    @trending_repos = trending.items
-    @popular_repos = popular.items
-    @recent_repos = recently.items
+    @repos_count = repos.size
+    @crystal_repos = repos
+    @trending_repos = trending
+    @popular_repos = popular
+    @recent_repos = recently
     @total_count = total_repos
     @page = page
 
