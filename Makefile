@@ -17,6 +17,7 @@ migrate_down: bin/micrate
 
 clean:
 	rm -Rf ./bin/update
+	rm -Rf ./bin/micrate
 
 node_modules/gulp/bin/gulp.js:
 	npm install
