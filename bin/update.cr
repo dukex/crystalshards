@@ -1,11 +1,19 @@
 require "pg"
 require "github"
 
-connection = PG.connect ENV.fetch("DATABASE_URL")
 client = Github::Client.new access_token: ENV.fetch("ACCESS_TOKEN")
 
+class Connection
+  def self.connection
+    @@current_connetion ||= PG.connect ENV.fetch("DATABASE_URL")
+  end
+end
+
+connection = Connection.connection
+
 def create_or_update(github_id, table, fields, values, data)
-  connection = PG.connect ENV.fetch("DATABASE_URL")
+  connection = Connection.connection
+
   exists = connection.exec({String}, "SELECT id FROM #{table} WHERE github_id=$1 LIMIT 1", [github_id]).rows.size > 0
 
   if exists
@@ -29,7 +37,7 @@ def create_or_update(github_id, table, fields, values, data)
   end
 end
 
-def save(repositories, client, connection)
+def save(repositories, client)
   repositories.each do |r|
     begin
       client.content(r, "shard.yml")
@@ -72,3 +80,5 @@ initial_page = (pages_rows.size > 0 ? pages_rows.first.first : 0) + 1
 
   connection.exec(%{INSERT INTO checker (page) VALUES ($1)}, [5])
 end
+
+connection.close
