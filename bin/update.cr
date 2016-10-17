@@ -57,7 +57,7 @@ def save(repositories, client)
         "shards",
         "github_id, name, full_name, description, watchers_count, stargazers_count, url, html_url, homepage, owner_github_id, pushed_at, updated_at",
         "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12",
-        [r.id, r.name, r.full_name, r.description, r.watchers_count, r.stargazers_count, r.url, r.html_url, r.homepage || "", owner.id, r.pushed_at, Time.now]
+        [r.id, r.name, r.full_name, r.description || "", r.watchers_count, r.stargazers_count, r.url, r.html_url, r.homepage || "", owner.id, r.pushed_at, Time.now]
       )
     rescue e : PQ::PQError
       puts e
