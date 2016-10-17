@@ -10,7 +10,7 @@ class Base
   end
 
   def self.one(defintion, query, id)
-    puts "QUERY: #{query}"
+    puts "QUERY: #{query} [#{id}]"
     mapping connection.exec(defintion, query, [id]).to_hash.first
   end
 
