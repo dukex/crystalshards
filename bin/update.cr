@@ -74,15 +74,16 @@ pages = (repositories.total_count / repositories.items.size)
 pages_rows = connection.exec({Int32}, "SELECT page FROM checker ORDER BY created_at DESC LIMIT 1").rows
 initial_page = (pages_rows.size > 0 ? pages_rows.first.first : 0) + 1
 
-if initial_page >= pages
-  connection.exec(%{DELETE FROM checker})
-end
-
 (initial_page..pages).each do |page|
-  repositories = client.repositories({"q" => "language:crystal", "page" => page.to_s})
-  save(repositories.items, client)
+  begin
+    repositories = client.repositories({"q" => "language:crystal", "page" => page.to_s})
+    save(repositories.items, client)
 
-  connection.exec(%{INSERT INTO checker (page) VALUES ($1)}, [page])
+    connection.exec(%{INSERT INTO checker (page) VALUES ($1)}, [page])
+  rescue e : Github::Error::UnprocessableEntity
+    connection.exec(%{DELETE FROM checker;})
+    raise e
+  end
 end
 
 connection.close
