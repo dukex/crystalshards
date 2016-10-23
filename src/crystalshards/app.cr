@@ -3,9 +3,9 @@ require "http/client"
 require "json"
 require "pg"
 require "emoji"
-require "../../views/index"
-require "../../models/time_cache"
-require "../../models/shard"
+require "./views/index"
+require "./models/time_cache"
+require "./models/shard"
 
 module CrystalShards
   class App
@@ -62,11 +62,11 @@ module CrystalShards
       page = fetch_page(env)
       env.response.content_type = "text/html"
 
-      repos = crystal_repos sort: sort, page: page
-      all_repos = crystal_repos
-      trending = crystal_repos limit: 10, page: page, after_date: 1.weeks.ago
-      popular = crystal_repos limit: 8, page: page
-      recently = crystal_repos sort: "pushed_at", page: 1, limit: 6
+      repos = REPOS_CACHE.fetch("repos" + sort + page.to_s) { crystal_repos sort: sort, page: page }
+      all_repos = ALL_REPOS_CACHE.fetch("all" + sort + page.to_s) { crystal_repos }
+      trending = TRENDING_CACHE.fetch("trending" + page.to_s) { crystal_repos limit: 10, page: page, after_date: 1.weeks.ago }
+      popular = POPULAR_CACHE.fetch("popular" + page.to_s) { crystal_repos limit: 8, page: page }
+      recently = RECENTLY_CACHE.fetch("recently" + page.to_s) { crystal_repos sort: "pushed_at", page: 1, limit: 6 }
 
       Views::Index.new sort: sort,
         filter: filter,
@@ -88,17 +88,17 @@ module CrystalShards
         if env.request.headers["Accept"] == "*/*"
           random_name
         else
-          render "views/name.ecr"
+          render "src/crystalshards/views/name.ecr"
         end
       end
 
-      get "/:user" do |env|
-        main env, "user:#{env.params.url["user"]}"
-      end
+      # get "/:user" do |env|
+      #   main env, "user:#{env.params.url["user"]}"
+      # end
 
-      get "/:user/:repo" do |env|
-        env.redirect("https://github.com/#{env.params.url["user"]}/#{env.params.url["repo"]}")
-      end
+      # get "/:user/:repo" do |env|
+      #   env.redirect("https://github.com/#{env.params.url["user"]}/#{env.params.url["repo"]}")
+      # end
 
       Kemal.run
     end

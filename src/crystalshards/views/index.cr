@@ -44,5 +44,5 @@ class Views::Index
     end
   end
 
-  ECR.def_to_s "./views/index.ecr"
+  ECR.def_to_s "./src/crystalshards/views/index.ecr"
 end
