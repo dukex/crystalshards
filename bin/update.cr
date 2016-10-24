@@ -3,6 +3,8 @@ require "github"
 
 Github.debug = true
 
+BLACKLIST_REPOSITORIES = ["crystal-lang/crystal", "veelenga/awesome-crystal"]
+
 client = Github::Client.new access_token: ENV.fetch("ACCESS_TOKEN")
 
 class Connection
@@ -41,6 +43,7 @@ end
 
 def save(repositories, client)
   repositories.each do |r|
+    next if BLACKLIST_REPOSITORIES.includes?(r.full_name)
     begin
       client.content(r, "shard.yml")
 
