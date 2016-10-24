@@ -1,6 +1,8 @@
 require "pg"
 require "github"
 
+Github.debug = true
+
 client = Github::Client.new access_token: ENV.fetch("ACCESS_TOKEN")
 
 class Connection
