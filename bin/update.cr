@@ -64,6 +64,18 @@ def save(repositories, client)
         "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12",
         [r.id, r.name, r.full_name, r.description || "", r.watchers_count, r.stargazers_count, r.url, r.html_url, r.homepage || "", owner.id, r.pushed_at, Time.now]
       )
+
+      releases = client.releases(owner.login, r.name)
+
+      releases.each do |release|
+        create_or_update(
+          release.id,
+          "releases",
+          "repo_github_id, name, tag_name, body, published_at, draft, prerelease, html_url, owner_github_id",
+          "$1, $2, $3, $4, $5, $6, $7, $8, $9",
+          [r.id, release.name, release.tag_name, release.body, release.published_at, release.draft, release.prerelease, release.html_url, owner.id]
+        )
+      end
     rescue e : PQ::PQError
       puts e
       puts "============="
