@@ -1,5 +1,6 @@
 require "./base"
 require "./owner"
+require "./release"
 
 module CrystalShards
   class Shard < Base
@@ -23,12 +24,14 @@ module CrystalShards
     @full_name : String
     @pushed_at : Time
     @owner : Owner
+    @releases : Array(Release)
 
-    getter :name, :description, :stargazers_count, :html_url, :full_name, :owner, :pushed_at
+    getter :name, :description, :stargazers_count, :html_url, :full_name, :owner, :pushed_at, :releases
 
     def initialize(@id, @name, @description, @stargazers_count, @html_url, @full_name, @pushed_at, owner_id, github_id)
       @owner = Owner.one({String, String, String}, "SELECT id, login, avatar_url FROM owners WHERE github_id=$1 LIMIT 1", owner_id)
 
+      @releases = Release.many({String, String, String, String, Time, Bool, Bool, String}, "SELECT id, name, tag_name, body, published_at, draft, prerelease, html_url FROM releases WHERE repo_github_id=$1", [github_id])
     end
   end
 end

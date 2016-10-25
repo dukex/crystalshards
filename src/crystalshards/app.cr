@@ -6,6 +6,7 @@ require "emoji"
 require "./views/index"
 require "./models/time_cache"
 require "./models/shard"
+require "./models/release"
 
 module CrystalShards
   class App
