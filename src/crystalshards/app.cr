@@ -3,7 +3,7 @@ require "http/client"
 require "json"
 require "pg"
 require "emoji"
-require "./views/index"
+require "./views/*"
 require "./models/time_cache"
 require "./models/shard"
 require "./models/release"
@@ -79,6 +79,15 @@ module CrystalShards
         total_repos: all_repos.size
     end
 
+    def show(full_name)
+      shard = Shard.one(
+        {String, String, String, Int32, String, String, Time, Int32, Int32},
+        "SELECT id, name, description, stargazers_count, html_url, full_name, pushed_at, owner_github_id, github_id FROM shards WHERE full_name = $1", full_name
+      )
+
+      Views::Show.new shard: shard
+    end
+
     def run
       get "/" do |env|
         index env
@@ -97,9 +106,13 @@ module CrystalShards
       #   main env, "user:#{env.params.url["user"]}"
       # end
 
-      # get "/:user/:repo" do |env|
-      #   env.redirect("https://github.com/#{env.params.url["user"]}/#{env.params.url["repo"]}")
-      # end
+      get "/:user/:repo" do |env|
+        begin
+          show "#{env.params.url["user"]}/#{env.params.url["repo"]}"
+        rescue NotFound
+          env.response.status_code = 404
+        end
+      end
 
       Kemal.run
     end
