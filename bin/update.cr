@@ -65,6 +65,13 @@ def save(repositories, client)
         [r.id, r.name, r.full_name, r.description || "", r.watchers_count, r.stargazers_count, r.url, r.html_url, r.homepage || "", owner.id, r.pushed_at, Time.now]
       )
 
+      create_or_update(
+        r.id,
+        "releases",
+        "repo_github_id, name, tag_name, body, published_at, draft, prerelease, html_url, owner_github_id",
+        "$1, $2, $3, $4, $5, $6, $7, $8, $9",
+        [r.id, "master", "master", "", r.pushed_at, true, true, r.html_url, owner.id])
+
       releases = client.releases(owner.login, r.name)
 
       releases.each do |release|
