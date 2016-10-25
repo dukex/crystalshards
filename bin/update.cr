@@ -68,7 +68,7 @@ def save(repositories, client)
       create_or_update(
         r.id,
         "releases",
-        "repo_github_id, name, tag_name, body, published_at, draft, prerelease, html_url, owner_github_id", "github_id",
+        "repo_github_id, name, tag_name, body, published_at, draft, prerelease, html_url, owner_github_id, github_id",
         "$1, $2, $3, $4, $5, $6, $7, $8, $9",
         [r.id, "master", "master", "", r.pushed_at, true, true, r.html_url, owner.id, r.id])
 
