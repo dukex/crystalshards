@@ -1,26 +1,28 @@
-struct TimeCache(K, V)
-  def initialize(@expire_time : Time::Span)
-    @cache = {} of K => Entry(V)
-  end
-
-  def fetch(key : K)
-    now = Time.utc_now
-
-    entry = @cache[key]?
-    if entry && now < entry.expire_time
-      return entry.value
+module CrystalShards
+  struct TimeCache(K, V)
+    def initialize(@expire_time : Time::Span)
+      @cache = {} of K => Entry(V)
     end
 
-    value = yield key
-    @cache[key] = Entry.new(value, now + @expire_time)
-    value
-  end
+    def fetch(key : K)
+      now = Time.utc_now
 
-  struct Entry(V)
-    getter value
-    getter expire_time
+      entry = @cache[key]?
+      if entry && now < entry.expire_time
+        return entry.value
+      end
 
-    def initialize(@value : V, @expire_time : Time)
+      value = yield key
+      @cache[key] = Entry.new(value, now + @expire_time)
+      value
+    end
+
+    struct Entry(V)
+      getter value
+      getter expire_time
+
+      def initialize(@value : V, @expire_time : Time)
+      end
     end
   end
 end
