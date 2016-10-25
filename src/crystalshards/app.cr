@@ -38,8 +38,8 @@ module CrystalShards
       where = pushed_at_query.empty? ? "" : "WHERE #{pushed_at_query}"
 
       Shard.many(
-        {String, String, String, Int32, String, String, Time, Int32},
-        "SELECT id, name, description, stargazers_count, html_url, full_name, pushed_at, owner_github_id FROM shards #{where} #{order_by} #{limit_query}"
+        {String, String, String, Int32, String, String, Time, Int32, Int32},
+        "SELECT id, name, description, stargazers_count, html_url, full_name, pushed_at, owner_github_id, github_id FROM shards #{where} #{order_by} #{limit_query}"
       )
     end
 
