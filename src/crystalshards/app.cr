@@ -16,7 +16,7 @@ module CrystalShards
     POPULAR_CACHE   = TimeCache(String, Array(Shard)).new(30.minutes)
     RECENTLY_CACHE  = TimeCache(String, Array(Shard)).new(30.minutes)
 
-    NAMES = JSON.parse(File.read("./misc/names.json"))
+    NAMES = JSON.parse(File.read("./db/names.json"))
 
     def initialize
     end
