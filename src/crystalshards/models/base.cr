@@ -9,6 +9,11 @@ class Base
     connection.exec(defintion, query).to_hash.map { |r| mapping r }
   end
 
+  def self.many(defintion, query, values)
+    puts "QUERY: #{query} (#{values})"
+    connection.exec(defintion, query, values).to_hash.map { |r| mapping r }
+  end
+
   def self.one(defintion, query, id)
     puts "QUERY: #{query} [#{id}]"
     mapping connection.exec(defintion, query, [id]).to_hash.first
