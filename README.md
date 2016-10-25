@@ -34,5 +34,5 @@ make assets_compile
 When you are finished, remember to restart your terminal or `source` your edited file.
 
 ```bash
-crystal ./app.cr
+crystal src/crystalshards.cr
 ```
