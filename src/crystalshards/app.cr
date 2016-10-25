@@ -56,7 +56,7 @@ module CrystalShards
       env.params.query["page"]?.try(&.to_i) || 1
     end
 
-    def main(env, query = "")
+    def index(env, query = "")
       sort = fetch_sort(env)
       filter = fetch_filter(env)
       page = fetch_page(env)
@@ -80,7 +80,7 @@ module CrystalShards
 
     def run
       get "/" do |env|
-        main env
+        index env
       end
 
       get "/name" do |env|
