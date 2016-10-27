@@ -69,7 +69,7 @@ def save(repositories, client)
         r.id,
         "releases",
         "repo_github_id, name, tag_name, body, published_at, draft, prerelease, html_url, owner_github_id, github_id",
-        "$1, $2, $3, $4, $5, $6, $7, $8, $9",
+        "$1, $2, $3, $4, $5, $6, $7, $8, $9, $10",
         [r.id, "master", "master", "", r.pushed_at, true, true, r.html_url, owner.id, r.id])
 
       releases = client.releases(owner.login, r.name)
